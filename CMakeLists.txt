@@ -16,8 +16,9 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 set(CMAKE_AUTOMOC ON)
 
 add_library(${PROJECT_NAME} STATIC
-	SingleInstance.cpp
-  SingleInstance_p.cpp
+	SingleInstance.cpp SingleInstance.h
+  SingleInstance_p.cpp SingleInstance_p.h
+	SingleGuiApplication.cpp SingleGuiApplication.h
 )
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
