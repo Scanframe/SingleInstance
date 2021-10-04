@@ -1,11 +1,12 @@
 #include <QCoreApplication>
 #include <QMessageLogContext>
-#include "../../SingleInstance"
+#include <SingleInstance>
 
 int main(int argc, char* argv[])
 {
 	QCoreApplication app(argc, argv);
-	SingleInstance inst;
+
+	SingleInstance inst(false);
 
 	qWarning() << "Started a new instance";
 

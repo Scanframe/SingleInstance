@@ -114,15 +114,14 @@ class SingleInstancePrivate :public QObject
 		};
 
 		SingleInstance* q_ptr;
-		QSharedMemory* memory;
-		QLocalSocket* socket;
-		QLocalServer* server;
-		quint32 instanceNumber;
+		QSharedMemory* memory{nullptr};
+		QLocalSocket* socket{nullptr};
+		QLocalServer* server{nullptr};
+		quint32 instanceNumber{0};
 		QString blockServerName;
 		SingleInstance::Options options;
 		QMap<QLocalSocket*, ConnectionInfo> connectionMap;
 		QStringList appDataList;
-
 
 	public Q_SLOTS:
 

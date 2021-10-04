@@ -27,6 +27,12 @@
 #include "SingleInstance.h"
 #include "SingleInstance_p.h"
 
+SingleInstance::SingleInstance(QObject* parent)
+	:QObject(parent)
+	 , d_ptr(new SingleInstancePrivate(this))
+{
+}
+
 /**
  * @brief Constructor. Checks and fires up LocalServer or closes the program
  * if another instance already exists
@@ -34,10 +40,24 @@
  * @param options Optional flags to toggle specific behaviour
  * @param timeout Maximum time blocking functions are allowed during app load
  */
-SingleInstance::SingleInstance(bool allowSecondary, Options options, int timeout, const QString& userData)
-	:d_ptr(new SingleInstancePrivate(this))
+SingleInstance::SingleInstance(bool allowSecondary, Options options, int timeout, const QString& userData, QObject* parent)
+	:QObject(parent)
+	 , d_ptr(new SingleInstancePrivate(this))
 {
 	Q_D(SingleInstance);
+
+	initialize(allowSecondary, options, timeout, userData);
+}
+
+void SingleInstance::initialize(bool allowSecondary, SingleInstance::Options options, int timeout, const QString& userData)
+{
+	Q_D(SingleInstance);
+
+	if (d->memory)
+	{
+		qCritical() << "Cannot initialize only once!";
+		return;
+	}
 
 #if defined(Q_OS_ANDROID) || defined(Q_OS_IOS)
 	// On Android and iOS since the library is not supported fallback to
@@ -117,15 +137,14 @@ SingleInstance::SingleInstance(bool allowSecondary, Options options, int timeout
 		// If the shared memory block's checksum is valid continue
 		if (d->blockChecksum() == inst->checksum) {break;}
 
-		// If more than 5s have elapsed, assume the primary instance crashed and
-		// assume it's position
+		// If more than 5s have elapsed, assume the primary instance crashed and assume its position.
 		if (time.elapsed() > 5000)
 		{
 			qWarning() << "SingleInstance: Shared memory block has been in an inconsistent state from more than 5s. Assuming primary instance failure.";
 			d->initializeMemoryBlock();
 		}
 
-		// Otherwise wait for a random period and try again. The random sleep here
+		// Otherwise, wait for a random period and try again. The random sleep here
 		// limits the probability of a collision between two racing apps and
 		// allows the app to initialise faster
 		if (!d->memory->unlock())
@@ -293,3 +312,4 @@ QStringList SingleInstance::userData() const
 	Q_D(const SingleInstance);
 	return d->appData();
 }
+

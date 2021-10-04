@@ -58,7 +58,22 @@ class SingleInstance :public QObject
 		Q_DECLARE_FLAGS(Options, Mode)
 
 		/**
-		 * @brief Intitializes a SingleInstance instance.
+		 * @brief Default constructor.
+		 */
+		explicit SingleInstance(QObject* parent = nullptr);
+		/**
+		 * @brief Initializing constructor.
+		 * @see initialize() for more.
+		 */
+		explicit SingleInstance(bool allowSecondary, Options options = Mode::User, int timeout = 1000, const QString& userData = {}, QObject* parent = nullptr);
+
+		/**
+		 * @brief Destructor.
+		 */
+		~SingleInstance() override;
+
+		/**
+		 * @brief Initializes this instance.
 		 * @param allowSecondary Whether to start the instance as secondary if there is already a primary instance.
 		 * @param options Whether for the SingleInstance block to be applied User wide or System wide.
 		 * @param timeout Timeout to wait in milliseconds.
@@ -71,54 +86,43 @@ class SingleInstance :public QObject
 		 * initialisation will be completed in given time, though is a good hint.
 		 * Usually 4*timeout would be the worst case (fail) scenario.
 		 */
-		explicit SingleInstance(bool allowSecondary = false, Options options = Mode::User, int timeout = 1000, const QString& userData = {});
+		void initialize(bool allowSecondary = false, Options options = Mode::User, int timeout = 1000, const QString& userData = {});
 
 		/**
-		 * @brief Destructor.
-		 */
-		~SingleInstance() override;
-
-		/**
-		 * @brief Returns if the instance is the primary instance
-		 * @return {bool}
+		 * @brief Gets if the instance is the primary instance.
 		 */
 		[[nodiscard]] bool isPrimary() const;
 
 		/**
-		 * @brief Returns if the instance is a secondary instance
-		 * @return {bool}
+		 * @brief Gets if the instance is a secondary instance.
 		 */
 		[[nodiscard]] bool isSecondary() const;
 
 		/**
-		 * @brief Returns a unique identifier for the current instance
-		 * @return {qint32}
+		 * @brief Gets a unique identifier for the current instance.
 		 */
 		[[nodiscard]] quint32 instanceId() const;
 
 		/**
-		 * @brief Returns the process ID (PID) of the primary instance
-		 * @return {qint64}
+		 * @brief Gets the process ID (PID) of the primary instance.
 		 */
 		[[nodiscard]] qint64 primaryPid() const;
 
 		/**
-		 * @brief Returns the username of the user running the primary instance
-		 * @return {QString}
+		 * @brief Gets the username of the user running the primary instance.
 		 */
 		[[nodiscard]] QString primaryUser() const;
 
 		/**
-		 * @brief Returns the username of the current user
-		 * @return {QString}
+		 * @brief Gets the username of the current user
 		 */
 		[[nodiscard]] QString currentUser() const;
 
 		/**
 		 * @brief Sends a message to the primary instance. Returns true on success.
-		 * @param {int} timeout - Timeout for connecting
-		 * @return {bool}
-		 * @note sendMessage() will return false if invoked from the primary
+		 * @param timeout - Timeout for connecting.
+		 * @return True on success.
+		 * @note sendMessage() will return false if invoked from the primary.
 		 * instance.
 		 */
 		bool sendMessage(const QByteArray& message, int timeout = 100);

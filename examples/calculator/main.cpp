@@ -50,7 +50,7 @@
 
 #include <QApplication>
 
-#include <SingleInstance.h>
+#include <SingleInstance>
 
 #include "calculator.h"
 
@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
 {
 	QApplication app(argc, argv);
 
-	SingleInstance inst;
+	SingleInstance inst(false);
 	Calculator calc;
 
 	QObject::connect(&inst, &SingleInstance::instanceStarted, [&calc]()
