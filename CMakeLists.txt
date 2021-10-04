@@ -1,34 +1,31 @@
-cmake_minimum_required(VERSION 3.7.0)
+cmake_minimum_required(VERSION 3.14)
 
-project(SingleApplication LANGUAGES CXX)
+project("SingleInstance" LANGUAGES CXX)
+
+# My own way to configure compiler and the latest Qt library installed on the current system
+if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/../../com/cmake")
+	list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_LIST_DIR}/../../com/cmake")
+	# My packages to find
+	find_package(SfBuildCheck CONFIG REQUIRED)
+	find_package(SfMacros CONFIG REQUIRED)
+	find_package(SfCompiler CONFIG REQUIRED)
+endif()
+
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 
 add_library(${PROJECT_NAME} STATIC
-    singleapplication.cpp
-    singleapplication_p.cpp
+	SingleInstance.cpp
+  SingleInstance_p.cpp
 )
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
-if(NOT QT_DEFAULT_MAJOR_VERSION)
-    set(QT_DEFAULT_MAJOR_VERSION 5 CACHE STRING "Qt version to use (5 or 6), defaults to 5")
-endif()
-
 # Find dependencies
 set(QT_COMPONENTS Core Network)
-set(QT_LIBRARIES Qt${QT_DEFAULT_MAJOR_VERSION}::Core Qt${QT_DEFAULT_MAJOR_VERSION}::Network)
+set(QT_LIBRARIES Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Network)
 
-if(QAPPLICATION_CLASS STREQUAL QApplication)
-    list(APPEND QT_COMPONENTS Widgets)
-    list(APPEND QT_LIBRARIES Qt${QT_DEFAULT_MAJOR_VERSION}::Widgets)
-elseif(QAPPLICATION_CLASS STREQUAL QGuiApplication)
-    list(APPEND QT_COMPONENTS Gui)
-    list(APPEND QT_LIBRARIES Qt${QT_DEFAULT_MAJOR_VERSION}::Gui)
-else()
-    set(QAPPLICATION_CLASS QCoreApplication)
-endif()
-
-find_package(Qt${QT_DEFAULT_MAJOR_VERSION} COMPONENTS ${QT_COMPONENTS} REQUIRED)
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS ${QT_COMPONENTS} REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC ${QT_LIBRARIES})
 
@@ -36,5 +33,6 @@ if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE advapi32)
 endif()
 
-target_compile_definitions(${PROJECT_NAME} PUBLIC QAPPLICATION_CLASS=${QAPPLICATION_CLASS})
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+add_subdirectory(examples)

@@ -50,22 +50,24 @@
 
 #include <QApplication>
 
-#include <singleapplication.h>
+#include <SingleInstance.h>
 
 #include "calculator.h"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    SingleApplication app(argc, argv);
+	QApplication app(argc, argv);
 
-    Calculator calc;
+	SingleInstance inst;
+	Calculator calc;
 
-    QObject::connect( &app, &SingleApplication::instanceStarted, [ &calc ]() {
-        calc.raise();
-        calc.activateWindow();
-    });
+	QObject::connect(&inst, &SingleInstance::instanceStarted, [&calc]()
+	{
+		calc.raise();
+		calc.activateWindow();
+	});
 
-    calc.show();
+	calc.show();
 
-    return app.exec();
+	return QApplication::exec();
 }

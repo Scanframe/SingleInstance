@@ -7,5 +7,4 @@ SOURCES = button.cpp \
     main.cpp
 
 # Single Application implementation
-include(../../singleapplication.pri)
-DEFINES += QAPPLICATION_CLASS=QApplication
+include(../../SingleInstance.pri)

@@ -117,7 +117,7 @@ __3.0.15__
 __3.0.14__
 ----------
 
-* Fixed uninitialised variables in the `SingleApplicationPrivate` constructor.
+* Fixed uninitialised variables in the `SingleInstancePrivate` constructor.
 
 __3.0.13a__
 ----------
@@ -160,7 +160,7 @@ __3.0.10__
 __3.0.9__
 ---------
 
-*   Added SingleApplicationPrivate::primaryPid() as a solution to allow
+*   Added SingleInstancePrivate::primaryPid() as a solution to allow
     bringing the primary window of an application to the foreground on
     Windows.
 
@@ -178,7 +178,7 @@ __3.0.7a__
 
 *   Fixed compilation error with Mingw32 in MXE thanks to Vitaly Tonkacheyev.
 *   Removed QMutex used for thread safe behaviour. The implementation now uses
-    QCoreApplication::instance() to get an instance to SingleApplication for
+    QCoreApplication::instance() to get an instance to SingleInstance for
     memory deallocation.
 
 __3.0.6a__
@@ -193,7 +193,7 @@ __3.0.6a__
 __3.0.5a__
 ----------
 
-*   Fixed a memory leak in the SingleApplicationPrivate destructor.
+*   Fixed a memory leak in the SingleInstancePrivate destructor.
 
     _Sergei Moiseev_
 
@@ -228,8 +228,8 @@ __3.0.1a__
 
 *   Allows the application path and version to be excluded from the server name
     hash. The following flags were added for this purpose:
-      * `SingleApplication::Mode::ExcludeAppVersion`
-      * `SingleApplication::Mode::ExcludeAppPath`
+      * `SingleInstance::Mode::ExcludeAppVersion`
+      * `SingleInstance::Mode::ExcludeAppPath`
 *   Allow a non elevated process to connect to a local server created by an
     elevated process run by the same user on Windows
 *   Fixes a problem with upper case letters in paths on Windows
@@ -243,17 +243,17 @@ __v3.0a__
 *   Added a sendMessage() method to send a message to the primary instance.
 *   Added a receivedMessage() signal, emitted when a message is received from a
     secondary instance.
-*   The SingleApplication constructor's third parameter is now a bool
+*   The SingleInstance constructor's third parameter is now a bool
     specifying if the current instance should be allowed to run as a secondary
     instance if there is already a primary instance.
-*   The SingleApplication constructor accept a fourth parameter specifying if
-    the SingleApplication block should be User-wide or System-wide.
-*   SingleApplication no longer relies on `applicationName` and
+*   The SingleInstance constructor accept a fourth parameter specifying if
+    the SingleInstance block should be User-wide or System-wide.
+*   SingleInstance no longer relies on `applicationName` and
     `organizationName` to be set. It instead concatenates all of the following
     data and computes a `SHA256` hash which is used as the key of the
     `QSharedMemory` block and the `QLocalServer`. Since at least
     `applicationFilePath` is always present there is no need to explicitly set
-    any of the following prior to initialising `SingleApplication`.
+    any of the following prior to initialising `SingleInstance`.
       * `QCoreApplication::applicationName`
       * `QCoreApplication::applicationVersion`
       * `QCoreApplication::applicationFilePath`
@@ -293,14 +293,14 @@ __v2.1__
 *   A race condition can no longer occur when starting two processes nearly
     simultaneously.
 
-    Fix issue [#3](https://github.com/itay-grudev/SingleApplication/issues/3)
+    Fix issue [#3](https://github.com/itay-grudev/SingleInstance/issues/3)
 
 __v2.0__
 --------
 
-*   SingleApplication is now being passed a reference to `argc` instead of a
+*   SingleInstance is now being passed a reference to `argc` instead of a
     copy.
 
-    Fix issue [#1](https://github.com/itay-grudev/SingleApplication/issues/1)
+    Fix issue [#1](https://github.com/itay-grudev/SingleInstance/issues/1)
 
 *   Improved documentation.

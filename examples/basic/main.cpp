@@ -1,10 +1,13 @@
-#include <singleapplication.h>
+#include <QCoreApplication>
+#include <QMessageLogContext>
+#include "../../SingleInstance"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-    SingleApplication app( argc, argv );
+	QCoreApplication app(argc, argv);
+	SingleInstance inst;
 
-    qWarning() << "Started a new instance";
+	qWarning() << "Started a new instance";
 
-    return app.exec();
+	return QCoreApplication::exec();
 }
