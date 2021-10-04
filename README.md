@@ -11,7 +11,34 @@ It can (if enabled) spawn secondary (non-related to the primary)
 instances and can send data to the primary instance from secondary instances.
 
 This class is not derived from an application class like `Q[|Gui|Core]Application` 
-which makes life a lot simpler :)   
+which makes life a lot simpler :)
+
+## Import using CMake only
+
+Create a package config file `SingleInstanceConfig.cmake`<br> 
+which can be found in the `CMAKE_PREFIX_PATH`.<br>
+Having the content below.
+
+```cmake
+# FetchContent added in CMake 3.11, downloads during the configure step
+include(FetchContent)
+# Import SingleInstance library.
+FetchContent_Declare(
+	SingleInstance
+	GIT_REPOSITORY https://github.com/Scanframe/SingleInstance.git
+#	GIT_TAG v????
+)
+# Adds SingleInstance::SingleInstance
+FetchContent_MakeAvailable(SingleInstance)
+```
+
+In your project's `CMakeLists.txt` file add something like this.
+
+```cmake
+find_package(SingleInstance REQUIRED)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Widgets SingleInstance)
+```
 
 ## Usage
 

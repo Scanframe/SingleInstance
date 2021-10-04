@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.14)
 project("SingleInstance" LANGUAGES CXX)
 
 # My own way to configure compiler and the latest Qt library installed on the current system
-if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/../../com/cmake")
-	list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_LIST_DIR}/../../com/cmake")
+if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/../cmake")
+	list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
 	# My packages to find
 	find_package(SfBuildCheck CONFIG REQUIRED)
 	find_package(SfMacros CONFIG REQUIRED)
