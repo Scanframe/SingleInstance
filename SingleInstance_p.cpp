@@ -154,7 +154,7 @@ void SingleInstancePrivate::genBlockServerName()
 	if (!(options & SingleInstance::Mode::ExcludeAppPath))
 	{
 #if defined(Q_OS_WIN)
-		appData.addData( SingleInstance::app_t::applicationFilePath().toLower().toUtf8() );
+		appData.addData(QCoreApplication::applicationFilePath().toLower().toUtf8());
 #elif defined(Q_OS_LINUX)
 		// If the application is running as an AppImage then the APPIMAGE env var should be used
 		// instead of applicationPath() as each instance is launched with its own executable path
