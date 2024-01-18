@@ -2,14 +2,19 @@ cmake_minimum_required(VERSION 3.14)
 
 project("SingleInstance" LANGUAGES CXX)
 
-# My own way to configure compiler and the latest Qt library installed on the current system
-if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/../cmake")
-	list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
-	# My packages to find
-	find_package(SfBuildCheck CONFIG REQUIRED)
-	find_package(SfMacros CONFIG REQUIRED)
-	find_package(SfCompiler CONFIG REQUIRED)
-endif ()
+# Only include when this is the main project.
+if ("${CMAKE_PROJECT_NAME}" STREQUAL "${CMAKE_PROJECT_NAME}")
+	include("${CMAKE_CURRENT_LIST_DIR}/cmake/qt-location.cmake")
+else ()
+	# My own way to configure compiler and the latest Qt library installed on the current system
+	if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/../cmake")
+		list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
+		# My packages to find
+		find_package(SfBuildCheck CONFIG REQUIRED)
+		find_package(SfMacros CONFIG REQUIRED)
+		find_package(SfCompiler CONFIG REQUIRED)
+	endif ()
+endif()
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 
@@ -36,6 +41,6 @@ endif ()
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-if (BUILD_EXAMPLES)
+if (SF_BUILD_TESTING)
 	add_subdirectory(examples)
 endif ()
