@@ -14,7 +14,7 @@ else ()
 		find_package(SfMacros CONFIG REQUIRED)
 		find_package(SfCompiler CONFIG REQUIRED)
 	endif ()
-endif()
+endif ()
 
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 
@@ -24,7 +24,7 @@ add_library(${PROJECT_NAME} STATIC
 	SingleInstance.cpp SingleInstance.h
 	SingleInstance_p.cpp SingleInstance_p.h
 	SingleGuiApplication.cpp SingleGuiApplication.h
-	)
+)
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 # Find dependencies
@@ -41,6 +41,7 @@ endif ()
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-if (SF_BUILD_TESTING)
+# Only include examples when this file is the main project file.
+if (PROJECT_NAME STREQUAL CMAKE_PROJECT_NAME)
 	add_subdirectory(examples)
 endif ()
