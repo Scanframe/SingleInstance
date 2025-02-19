@@ -1,5 +1,3 @@
-#include <QCoreApplication>
-#include <QMessageLogContext>
 #include <SingleInstance>
 
 int main(int argc, char* argv[])

@@ -25,22 +25,6 @@
 					"type": "STRING",
 					"value": "VERBOSE"
 				},
-				"Catch2_VERSION": {
-					"type": "STRING",
-					"value": "v3.2.0"
-				},
-				"SF_BUILD_QT": {
-					"type": "BOOL",
-					"value": "OFF"
-				},
-				"SF_BUILD_TESTING": {
-					"type": "BOOL",
-					"value": "OFF"
-				},
-				"SF_CROSS_WINDOWS": {
-					"type": "BOOL",
-					"value": "OFF"
-				},
 				"Vulkan_INCLUDE_DIR": {
 					"type": "STRING",
 					"value": "${sourceDir}"
@@ -63,12 +47,6 @@
 			"hidden": true,
 			"displayName": "Linux QT Configure Template",
 			"description": "Configure template for Linux using QT.",
-			"cacheVariables": {
-				"SF_BUILD_QT": {
-					"type": "BOOL",
-					"value": "ON"
-				}
-			},
 			"condition": {
 				"type": "equals",
 				"lhs": "${hostSystemName}",
@@ -84,10 +62,6 @@
 			"displayName": "Windows QT Configure Template",
 			"description": "Configure template for Windows using QT.",
 			"cacheVariables": {
-				"SF_BUILD_QT": {
-					"type": "BOOL",
-					"value": "ON"
-				},
 				"CMAKE_RUNTIME_OUTPUT_DIRECTORY": {
 					"type": "STRING",
 					"value": "${sourceDir}/bin/win64-native"

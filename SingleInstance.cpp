@@ -20,18 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include <QtCore/QElapsedTimer>
 #include <QtCore/QByteArray>
+#include <QtCore/QElapsedTimer>
 #include <QtCore/QSharedMemory>
 
 #include "SingleInstance.h"
 #include "SingleInstance_p.h"
 
 SingleInstance::SingleInstance(QObject* parent)
-	:QObject(parent)
-	 , d_ptr(new SingleInstancePrivate(this))
-{
-}
+	: QObject(parent)
+	, d_ptr(new SingleInstancePrivate(this))
+{}
 
 /**
  * @brief Constructor. Checks and fires up LocalServer or closes the program
@@ -41,8 +40,8 @@ SingleInstance::SingleInstance(QObject* parent)
  * @param timeout Maximum time blocking functions are allowed during app load
  */
 SingleInstance::SingleInstance(bool allowSecondary, Options options, int timeout, const QString& userData, QObject* parent)
-	:QObject(parent)
-	 , d_ptr(new SingleInstancePrivate(this))
+	: QObject(parent)
+	, d_ptr(new SingleInstancePrivate(this))
 {
 	Q_D(SingleInstance);
 
@@ -127,7 +126,7 @@ void SingleInstance::initialize(bool allowSecondary, SingleInstance::Options opt
 		}
 	}
 
-	auto* inst = static_cast<SingleInstancePrivate::InstancesInfo*>( d->memory->data() );
+	auto* inst = static_cast<SingleInstancePrivate::InstancesInfo*>(d->memory->data());
 	QElapsedTimer time;
 	time.start();
 
@@ -135,7 +134,10 @@ void SingleInstance::initialize(bool allowSecondary, SingleInstance::Options opt
 	while (true)
 	{
 		// If the shared memory block's checksum is valid continue
-		if (d->blockChecksum() == inst->checksum) {break;}
+		if (d->blockChecksum() == inst->checksum)
+		{
+			break;
+		}
 
 		// If more than 5s have elapsed, assume the primary instance crashed and assume its position.
 		if (time.elapsed() > 5000)
@@ -312,4 +314,3 @@ QStringList SingleInstance::userData() const
 	Q_D(const SingleInstance);
 	return d->appData();
 }
-

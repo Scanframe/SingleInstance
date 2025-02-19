@@ -31,23 +31,23 @@
 
 #pragma once
 
+#include "SingleInstance.h"
 #include <QtCore/QSharedMemory>
 #include <QtNetwork/QLocalServer>
 #include <QtNetwork/QLocalSocket>
-#include "SingleInstance.h"
 
-class SingleInstancePrivate :public QObject
+class SingleInstancePrivate final : public QObject
 {
-	Q_OBJECT
+		Q_OBJECT
 	public:
-		enum ConnectionType :quint8
+		enum ConnectionType : quint8
 		{
 			InvalidConnection = 0,
 			NewInstance = 1,
 			SecondaryInstance = 2,
 			Reconnect = 3
 		};
-		enum ConnectionStage :quint8
+		enum ConnectionStage : quint8
 		{
 			StageInitHeader = 0,
 			StageInitBody = 1,
@@ -99,18 +99,18 @@ class SingleInstancePrivate :public QObject
 
 		struct InstancesInfo
 		{
-			bool primary;
-			quint32 secondary;
-			qint64 primaryPid;
-			char primaryUser[128];
-			quint16 checksum; // Must be the last field
+				bool primary;
+				quint32 secondary;
+				qint64 primaryPid;
+				char primaryUser[128];
+				quint16 checksum;// Must be the last field
 		};
 
 		struct ConnectionInfo
 		{
-			qint64 msgLen = 0;
-			quint32 instanceId = 0;
-			quint8 stage = 0;
+				qint64 msgLen = 0;
+				quint32 instanceId = 0;
+				quint8 stage = 0;
 		};
 
 		SingleInstance* q_ptr;
@@ -131,4 +131,3 @@ class SingleInstancePrivate :public QObject
 
 		void slotClientConnectionClosed(QLocalSocket*, quint32);
 };
-

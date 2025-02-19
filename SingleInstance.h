@@ -31,12 +31,11 @@ class SingleInstancePrivate;
 /**
  * @brief The SingleInstance class handles multiple instances.
  */
-class SingleInstance :public QObject
+class SingleInstance : public QObject
 {
-	Q_OBJECT
+		Q_OBJECT
 
 	public:
-
 		/**
 		 * @brief Mode of operation of SingleInstance.
 		 * Whether the block should be user-wide or system-wide and whether the
@@ -120,7 +119,8 @@ class SingleInstance :public QObject
 
 		/**
 		 * @brief Sends a message to the primary instance. Returns true on success.
-		 * @param timeout - Timeout for connecting.
+		 * @param timeout Timeout for connecting.
+		 * @param message
 		 * @return True on success.
 		 * @note sendMessage() will return false if invoked from the primary.
 		 * instance.
@@ -129,7 +129,6 @@ class SingleInstance :public QObject
 
 		/**
 		 * @brief Get the set user data.
-		 * @return {QStringList}
 		 */
 		[[nodiscard]] QStringList userData() const;
 
@@ -148,4 +147,3 @@ class SingleInstance :public QObject
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(SingleInstance::Options)
-
